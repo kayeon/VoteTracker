@@ -64,10 +64,16 @@ var k13 = {
             votes: 0,
             views: 0
           };
+
+//I'm not sure what to do with this but it was recommended that I create it
+var voteTracker = {};
+
 var kittyPics = [k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13];
 //the displayedCats array gets values pushed into it each time
 //a new set of photos loads
 var displayedCats = [];
+var cat1;
+var cat2;
 
 
 $(document).ready(function(){
@@ -77,69 +83,35 @@ $(document).ready(function(){
 //the getKitties function fills an array(displayedCats) with two
 //random numbers to correspond with a value in the kittyPics array.
 var getKitties = function(){
-
+  displayedCats = [];
   for(var x= 0; x < 2; x+= 1){
     var number = Math.floor(Math.random() * 13);
     displayedCats.push(number);
   }
-  if (displayedCats[0] === displayedCats[1]){
-    displayedCats.splice(1, 1, (displayedCats[0]-1));
-  }
-  console.log(displayedCats);
-  //save kitty info for later use
+} ;
 
-}
-//I will now write another function which takes each value from the
-//displayedCats array (generated using the getKitties function)
-//and uses their name value to print an image to the page
 var printKitties = function(){
-  displayedCats = [];
+
+  $('#kittyOne').empty();
+  $('#kittyTwo').empty();
+  $('#kittyOne').removeClass('colorIt');
+  $('#kittyTwo').removeClass('colorIt');
+
   getKitties();
+  if(Number(displayedCats[0]) == Number(displayedCats[1])){
+    getKitties(); //am I doing this right?
+  }else {
+    cat1 = kittyPics[displayedCats[0]];
+    cat2 = kittyPics[displayedCats[1]];
+    console.log(cat1.name);
+    console.log(cat2.name);
+  }
+  $('#kittyOne').append('<img width="150px" height="150px" src="pics/'+ cat1.name + '.jpg">');
+  $('#kittyTwo').append('<img width="150px" height="150px" src="pics/'+ cat2.name + '.jpg">');
 
-  var firstPic = kittyPics[displayedCats[0]];
-  var secondPic = kittyPics[displayedCats[1]];
-
-  var countOne = firstPic.views += 1;
-  var countTwo = secondPic.views += 1;
-
-  var catNameOne = firstPic.name;
-  var catNameTwo = secondPic.name;
-
-  var catVotesOne = firstPic.votes +=1;
-  var catVotesTwo = secondPic.votes +=1;
-
-  console.log('views: ' + countOne);
-  console.log('views: ' + countTwo);
-
-  console.log('name: ' + catNameOne);
-  console.log('name: ' + catNameTwo);
-
-  console.log('votes: ' + catVotesOne);
-  console.log('votes: ' + catVotesTwo);
-
-
- $(document).ready(function(){
-    $('#kittyOne').append('<img id=\'kat\' width="150px" height="150px" src="pics/'+ catNameOne + '.jpg">');
-    $('#kittyTwo').append('<img id=\'catt\' width="150px" height="150px" src="pics/'+ catNameTwo + '.jpg">');
- })
-
- $(document).ready(function(){
-  $('#kittyOne').click(function(){
-    //$(this).css('border', 'solid 2px red');
-    $(this).addClass('colorIt');
-    k1.votes += 1;
-  });
-  });
-
-}
-
- $(document).ready(function(){
-  $('#kittyTwo').click(function(){
-    //$(this).css('border', 'solid 2px red');
-    $(this).addClass('colorIt');
-    $(this).votes += 1;
-  });
-  });
+  cat1.views += 1;
+  cat2.views += 1;
+};
 
 $(document).ready(function(){
   $('#vote').click(function(){
@@ -148,15 +120,57 @@ $(document).ready(function(){
   });
 });
 
-$(document).ready(function(){
-  $('#again').click(function(){
-    $('#kittyOne').empty();
-    $('#kittyTwo').empty();
-    $('#kittyOne').removeClass('colorIt');
-    $('#kittyTwo').removeClass('colorIt');
-    printKitties();
+  $('#kittyOne').click(function(){
+    cat1.votes += 1;
+    console.log(cat1.votes);
+    $(this).addClass('colorIt');
   });
-});
+//});
+//$(document).ready(function(){
+  $('#kittyTwo').click(function(){
+    cat2.votes += 1;
+    console.log(cat2.votes);
+    $(this).addClass('colorIt');
+  });
+//});
+
+
+
+
+
+
+
+
+
+
+////////
+//pretending that nothing underneath this line exists
+////////
+// $(document).ready(function(){
+//   $('#vote').click(function(){
+//     getKitties();
+//     $('#vote').remove();
+//   });
+// });
+
+// $(document).ready(function(){
+//   $('#again').click(function(){
+//     $('#kittyOne').empty();
+//     $('#kittyTwo').empty();
+//     $('#kittyOne').removeClass('colorIt');
+//     $('#kittyTwo').removeClass('colorIt');
+//     getKitties();
+//   });
+// });
+
+
+
+
+
+
+
+
+
 
 
 //instead of applying css directly to an element,
